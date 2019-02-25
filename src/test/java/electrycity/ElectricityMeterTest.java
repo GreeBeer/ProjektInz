@@ -28,4 +28,14 @@ public class ElectricityMeterTest {
         electryMeter.addKwh(4);
         Assert.assertEquals(1, electryMeter.getKwh(), 17f);
     }
+    @Test
+    public void addKwh_newmeter6_properAddition() {
+        ElectricityMeter electryMeter = new ElectricityMeter();
+        electryMeter.addKwh(1);
+        electryMeter.addKwh(4);
+        electryMeter.addKwh(4);
+        electryMeter.addKwh(4);
+        electryMeter.addKwh(4);
+        Assert.assertEquals(10, electryMeter.getKwh(), 17f);
+    }
 }
