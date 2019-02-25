@@ -16,7 +16,7 @@ public class ElectricityMeterTest {
         ElectricityMeter electryMeter = new ElectricityMeter();
         electryMeter.addKwh(1);
         electryMeter.addKwh(4);
-        Assert.assertEquals(1, electryMeter.getKwh(), 5f);
+        Assert.assertEquals(5, electryMeter.getKwh(), 0f);
     }
     @Test
     public void addKwh_newmeter5_properAddition() {
@@ -26,7 +26,7 @@ public class ElectricityMeterTest {
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
-        Assert.assertEquals(1, electryMeter.getKwh(), 17f);
+        Assert.assertEquals(17, electryMeter.getKwh(), 0f);
     }
     @Test
     public void addKwh_newmeter6_properAddition() {
@@ -36,6 +36,6 @@ public class ElectricityMeterTest {
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
-        Assert.assertEquals(10, electryMeter.getKwh(), 17f);
+        Assert.assertEquals(1, electryMeter.getKwh(), 0f);
     }
 }
