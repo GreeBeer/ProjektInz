@@ -36,6 +36,6 @@ public class ElectricityMeterTest {
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
         electryMeter.addKwh(4);
-        Assert.assertEquals(1, electryMeter.getKwh(), 0f);
+        Assert.assertEquals(17, electryMeter.getKwh(), 0f);
     }
 }
