@@ -5,10 +5,10 @@ pipeline {
       steps {
         sh './gradlew test'
       }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying....'
+      post{
+        always {
+            junit 'build/test-results/test/*.xml'
+        }
       }
     }
   }
