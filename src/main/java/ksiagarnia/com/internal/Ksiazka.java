@@ -28,7 +28,6 @@ public class Ksiazka {
     }
 
     // kontrakt pomiedzy equals i hashcode, uzywamy ksiazka w map oraz collection
-    // po co jest equals i hashcode? todo
 
     @Override
     public boolean equals(Object o) {

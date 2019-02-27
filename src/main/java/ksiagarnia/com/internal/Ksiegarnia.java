@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Glowna logika naszej apki, Ksiegarnia jest odpowiedzialna za laczenie wszystkich innych klas.
+ *
+ * Czyli ze swiata zewnetrznego zawsze komunikujemy sie poprzez ta klase.
+ */
 public class Ksiegarnia {
     private final RejestKsiazka rejestKsiazka;
     private final Map<Integer, Uzytkownik> uzytkownikMap;

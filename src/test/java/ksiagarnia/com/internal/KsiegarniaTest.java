@@ -20,4 +20,13 @@ public class KsiegarniaTest {
         Assert.assertEquals(Odpowiedz.KSIAZKA_NIE_ISTNIEJE, ksiegarnia.kup(0, 0));
     }
 
+    @Test
+    public void kupKsiazkeKsiazkaNieIstniejeWSklepie() {
+        Ksiegarnia ksiegarnia = new Ksiegarnia();
+        ksiegarnia.rejest(new Uzytkownik(0, "", "", new HashSet<>()), 0);
+        ksiegarnia.rejestKsiazka(new Ksiazka(0, "",0, "", GatunekKsiazki.DRAMAT, 0,0));
+        //ksiegarnia.rejestKsiazkaDoSklep(0, 1);
+        Assert.assertEquals(Odpowiedz.SKLEP_KSIAZKA_NIE_JEST_DOSTEPNA, ksiegarnia.kup(0, 0));
+    }
+
 }
