@@ -12,16 +12,6 @@ public class Ksiegarnia {
     private final Sklep sklep;
     private final Wypozyczalnia wypozyczalnia;
 
-    Ksiegarnia(RejestKsiazka rejestKsiazka,
-               Sklep sklep,
-               Wypozyczalnia wypozyczalnia) {
-        this.rejestKsiazka = rejestKsiazka;
-        this.uzytkownikMap = new HashMap<>();
-        this.kontaUzytkownik = new HashMap<>();
-        this.sklep = sklep;
-        this.wypozyczalnia = wypozyczalnia;
-    }
-
     public Ksiegarnia() {
         this.rejestKsiazka = new RejestKsiazka();
         this.uzytkownikMap = new HashMap<>();
@@ -78,7 +68,7 @@ public class Ksiegarnia {
 
     public Collection<Ksiazka> podajKsiazkiWypozyczone(int uzytkownikId) {
         Set<Integer> ksiazkiIdSet = wypozyczalnia.podajListeWypozyczonych(uzytkownikId);
-        return rejestKsiazka.podajKsiazki(ksiazkiIdSet);
+        return rejestKsiazka.znajdzKsiazki(ksiazkiIdSet);
     }
 
     public Collection<Ksiazka> podajKsiazkiKupione(int uzytkownikId) {

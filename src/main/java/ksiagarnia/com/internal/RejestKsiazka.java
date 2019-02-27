@@ -2,39 +2,36 @@ package ksiagarnia.com.internal;
 
 import java.util.*;
 
+/**
+ * Baza danych wszystkich istniejacych ksiazek
+ */
 class RejestKsiazka {
-    private final Map<Integer, Ksiazka> ksiazki = new HashMap<>();
-    private final Map<GatunekKsiazki, Set<Ksiazka>> ksiazkiDoGatunek = new HashMap<>();
-
-    public Ksiazka znajdzKsiazke(int ksiazkaId) {
-        return ksiazki.get(ksiazkaId);
-    }
+    private final ArrayList<Ksiazka> ksiazkiList = new ArrayList<>(); // ksiazka id -> Ksiazka
 
     public void dodajKsiazke(Ksiazka ksiazka) {
-        ksiazki.put(ksiazka.id, ksiazka);
-        Set<Ksiazka> ksiazkiDlaGatunku = ksiazkiDoGatunek.get(ksiazka.gatunekKsiazki);
-        if (ksiazkiDlaGatunku == null) {
-            ksiazkiDlaGatunku = new HashSet<>();
-            ksiazkiDoGatunek.put(ksiazka.gatunekKsiazki, ksiazkiDlaGatunku);
+        ksiazkiList.add(ksiazka);
+    }
+
+    public Ksiazka znajdzKsiazke(int ksiazkaId) {
+        for(Ksiazka ksiazka : ksiazkiList) {
+            if(ksiazka.id == ksiazkaId){
+                return ksiazka;
+            }
         }
-        ksiazkiDlaGatunku.add(ksiazka);
+        return null;
     }
 
-    public Set<Ksiazka> podajKsiazkiPoGatunku(GatunekKsiazki gatunekKsiazki) {
-        return ksiazkiDoGatunek.getOrDefault(gatunekKsiazki, Collections.emptySet());
-    }
-
-    public Collection<Ksiazka> podajKsiazki() {
-        return ksiazki.values();
-    }
-
-    public Collection<Ksiazka> podajKsiazki(Collection<Integer> ids) {
-        Set<Ksiazka> ksiazkaSet = new HashSet<>();
-        for (Ksiazka ksiazka : ksiazki.values()) {
+    public ArrayList<Ksiazka> znajdzKsiazki(Collection<Integer> ids) {
+        ArrayList<Ksiazka> ksiazkaSet = new ArrayList<>();
+        for (Ksiazka ksiazka : ksiazkiList) {
             if (ids.contains(ksiazka.id)) {
                 ksiazkaSet.add(ksiazka);
             }
         }
         return ksiazkaSet;
+    }
+
+    public ArrayList<Ksiazka> podajKsiazki() {
+        return ksiazkiList;
     }
 }
