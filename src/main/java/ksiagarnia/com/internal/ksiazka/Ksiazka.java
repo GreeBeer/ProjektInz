@@ -27,20 +27,25 @@ public class Ksiazka {
         this.kosztWyporzyczenia = kosztWyporzyczenia;
     }
 
+    // kontrakt pomiedzy equals i hashcode, uzywamy ksiazka w map oraz collection
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Ksiazka)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Ksiazka ksiazka = (Ksiazka) o;
         return id == ksiazka.id &&
                 rokWydania == ksiazka.rokWydania &&
+                Double.compare(ksiazka.cenaNowej, cenaNowej) == 0 &&
+                Double.compare(ksiazka.kosztWyporzyczenia, kosztWyporzyczenia) == 0 &&
                 Objects.equals(tytul, ksiazka.tytul) &&
-                Objects.equals(isbn, ksiazka.isbn);
+                Objects.equals(isbn, ksiazka.isbn) &&
+                gatunekKsiazki == ksiazka.gatunekKsiazki;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tytul, rokWydania, isbn);
+        return Objects.hash(id, tytul, rokWydania, isbn, gatunekKsiazki, cenaNowej, kosztWyporzyczenia);
     }
 
     @Override

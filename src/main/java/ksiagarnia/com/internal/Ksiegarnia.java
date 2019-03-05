@@ -12,22 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Glowna logika naszej apki, Ksiegarnia jest odpowiedzialna za laczenie wszystkich innych klas.
+ * <p>
+ * Czyli ze swiata zewnetrznego zawsze komunikujemy sie poprzez ta klase.
+ */
 public class Ksiegarnia {
     private final RejestKsiazka rejestKsiazka;
     private final Map<Integer, Uzytkownik> uzytkownikMap;
     private final Map<Integer, Konto> kontaUzytkownik;
     private final Sklep sklep;
     private final Wypozyczalnia wypozyczalnia;
-
-    Ksiegarnia(RejestKsiazka rejestKsiazka,
-               Sklep sklep,
-               Wypozyczalnia wypozyczalnia) {
-        this.rejestKsiazka = rejestKsiazka;
-        this.uzytkownikMap = new HashMap<>();
-        this.kontaUzytkownik = new HashMap<>();
-        this.sklep = sklep;
-        this.wypozyczalnia = wypozyczalnia;
-    }
 
     public Ksiegarnia() {
         this.rejestKsiazka = new RejestKsiazka();
@@ -101,7 +96,7 @@ public class Ksiegarnia {
 
     public Collection<Ksiazka> podajKsiazkiWypozyczone(int uzytkownikId) {
         Set<Integer> ksiazkiIdSet = wypozyczalnia.podajListeWypozyczonych(uzytkownikId);
-        return rejestKsiazka.podajKsiazki(ksiazkiIdSet);
+        return rejestKsiazka.znajdzKsiazki(ksiazkiIdSet);
     }
 
     public Collection<Ksiazka> podajKsiazkiKupione(int uzytkownikId) {

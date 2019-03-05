@@ -30,6 +30,6 @@ public class SklepTest {
         Sklep sklep = new Sklep();
         sklep.dodajKsiazke(0, 10);
         sklep.kup(0);
-        Assert.assertEquals(9, sklep.podajIlosc(0).intValue());
+        Assert.assertEquals(9, sklep.podajIloscDostepnych(0).intValue());
     }
 }
