@@ -1,5 +1,7 @@
 package ksiagarnia.com.internal;
 
+import ksiagarnia.com.Ksiegarnia;
+import ksiagarnia.com.Odpowiedz;
 import ksiagarnia.com.internal.ksiazka.GatunekKsiazki;
 import ksiagarnia.com.internal.ksiazka.Ksiazka;
 import ksiagarnia.com.internal.user.Uzytkownik;

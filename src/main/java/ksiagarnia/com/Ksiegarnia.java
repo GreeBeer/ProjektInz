@@ -1,4 +1,4 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com;
 
 import ksiagarnia.com.internal.ksiazka.Ksiazka;
 import ksiagarnia.com.internal.ksiazka.RejestKsiazka;

@@ -1,4 +1,4 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com;
 
 /**
  * Enum w formie odpowiedzi w ksiegarni aby latwiej napisac UnitTest
