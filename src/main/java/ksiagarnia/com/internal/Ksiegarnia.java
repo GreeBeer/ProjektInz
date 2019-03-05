@@ -68,8 +68,24 @@ public class Ksiegarnia {
         return Odpowiedz.OK;
     }
 
-    public void wypozycz(int ksiazkaId, int uzytkowniId) {
-
+    public Odpowiedz wypozycz(int ksiazkaId, int uzytkowniId) {
+        Uzytkownik uzytkownik = uzytkownikMap.get(uzytkowniId);
+        if (uzytkownik == null) {
+            return Odpowiedz.UZYTKOWNIK_NIE_ISTNIEJE;
+        }
+        Ksiazka ksiazka = rejestKsiazka.znajdzKsiazke(ksiazkaId);
+        if (ksiazka == null) {
+            return Odpowiedz.KSIAZKA_NIE_ISTNIEJE;
+        }
+        if (wypozyczalnia.czyJestDostepna(ksiazkaId)) {
+            return Odpowiedz.WYPOZYCZALNIA_KSIAZKA_NIE_JEST_DOSTEPNA;
+        }
+        Konto konto = kontaUzytkownik.get(uzytkowniId);
+        if (!konto.zaplac(ksiazka.kosztWyporzyczenia)) {
+            return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
+        }
+        wypozyczalnia.wypozycz(ksiazkaId, uzytkowniId);
+        return Odpowiedz.OK;
     }
 
     public void oddaj(int ksiazkaId, int uzytkowniId) {
