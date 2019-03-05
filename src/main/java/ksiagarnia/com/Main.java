@@ -15,7 +15,7 @@ public class Main {
         ksiegarnia.rejest(new Uzytkownik(002, "TOMEK", "Z", new HashSet<>()), 200);
         ksiegarnia.rejestKsiazka(new Ksiazka(0, "X", 1, "", GatunekKsiazki.DRAMAT, 50, 5));
         ksiegarnia.rejestKsiazka(new Ksiazka(1, "X", 1, "", GatunekKsiazki.KRYMINAL, 5, 5));
-        ksiegarnia.rejestKsiazka(new Ksiazka(23, "cc", 1992, "", GatunekKsiazki.KRYMINAL, 300, 5));
+        ksiegarnia.rejestKsiazka(new Ksiazka(23, "cc", 1992, "", GatunekKsiazki.KOMEDIA, 300, 5));
 
         ksiegarnia.rejestKsiazkaDoSklep(0, 10);
         ksiegarnia.rejestKsiazkaDoWypozyczalni(1, 5);
