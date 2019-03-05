@@ -1,5 +1,12 @@
 package ksiagarnia.com.internal;
 
+import ksiagarnia.com.internal.ksiazka.Ksiazka;
+import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
+import ksiagarnia.com.internal.user.Konto;
+import ksiagarnia.com.internal.user.Uzytkownik;
+import ksiagarnia.com.internal.zbiory.Sklep;
+import ksiagarnia.com.internal.zbiory.Wypozyczalnia;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

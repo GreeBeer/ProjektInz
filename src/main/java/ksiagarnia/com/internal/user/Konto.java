@@ -1,8 +1,8 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.user;
 
 import java.math.BigDecimal;
 
-class Konto {
+public class Konto {
     public final int uzytkownikId;
     private BigDecimal saldo;
 

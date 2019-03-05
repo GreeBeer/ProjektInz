@@ -1,8 +1,8 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.ksiazka;
 
 import java.util.*;
 
-class RejestKsiazka {
+public class RejestKsiazka {
     private final Map<Integer, Ksiazka> ksiazki = new HashMap<>();
     private final Map<GatunekKsiazki, Set<Ksiazka>> ksiazkiDoGatunek = new HashMap<>();
 

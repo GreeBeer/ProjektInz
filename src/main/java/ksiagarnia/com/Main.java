@@ -1,6 +1,10 @@
 package ksiagarnia.com;
 
-import ksiagarnia.com.internal.*;
+import ksiagarnia.com.internal.Ksiegarnia;
+import ksiagarnia.com.internal.Odpowiedz;
+import ksiagarnia.com.internal.ksiazka.GatunekKsiazki;
+import ksiagarnia.com.internal.ksiazka.Ksiazka;
+import ksiagarnia.com.internal.user.Uzytkownik;
 
 import java.util.Collection;
 import java.util.HashSet;

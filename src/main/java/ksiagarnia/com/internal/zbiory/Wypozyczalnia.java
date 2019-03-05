@@ -1,11 +1,11 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.zbiory;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class Wypozyczalnia extends ZbiorKsiazek {
+public class Wypozyczalnia extends ZbiorKsiazek {
     private final Map<Integer, Set<Integer>> uzytkownikDoKsiazki = new HashMap<>(); // uzytkownikId do Set ksiazkaId
 
     public Set<Integer> podajListeWypozyczonych(int uzytkownikId) {

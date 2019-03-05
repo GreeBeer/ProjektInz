@@ -1,6 +1,6 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.zbiory;
 
-class Sklep extends ZbiorKsiazek {
+public class Sklep extends ZbiorKsiazek {
 
     public void kup(int ksiazkaId) {
         Integer ilosc = podajIlosc(ksiazkaId);

@@ -1,4 +1,6 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.user;
+
+import ksiagarnia.com.internal.ksiazka.Ksiazka;
 
 import java.util.Set;
 
