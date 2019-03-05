@@ -1,4 +1,4 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.ksiazka;
 
 import java.util.Objects;
 

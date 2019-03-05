@@ -1,4 +1,11 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com;
+
+import ksiagarnia.com.internal.ksiazka.Ksiazka;
+import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
+import ksiagarnia.com.internal.user.Konto;
+import ksiagarnia.com.internal.user.Uzytkownik;
+import ksiagarnia.com.internal.zbiory.Sklep;
+import ksiagarnia.com.internal.zbiory.Wypozyczalnia;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,7 +14,7 @@ import java.util.Set;
 
 /**
  * Glowna logika naszej apki, Ksiegarnia jest odpowiedzialna za laczenie wszystkich innych klas.
- *
+ * <p>
  * Czyli ze swiata zewnetrznego zawsze komunikujemy sie poprzez ta klase.
  */
 public class Ksiegarnia {
@@ -63,8 +70,24 @@ public class Ksiegarnia {
         return Odpowiedz.OK;
     }
 
-    public void wypozycz(int ksiazkaId, int uzytkowniId) {
-
+    public Odpowiedz wypozycz(int ksiazkaId, int uzytkowniId) {
+        Uzytkownik uzytkownik = uzytkownikMap.get(uzytkowniId);
+        if (uzytkownik == null) {
+            return Odpowiedz.UZYTKOWNIK_NIE_ISTNIEJE;
+        }
+        Ksiazka ksiazka = rejestKsiazka.znajdzKsiazke(ksiazkaId);
+        if (ksiazka == null) {
+            return Odpowiedz.KSIAZKA_NIE_ISTNIEJE;
+        }
+        if (wypozyczalnia.czyJestDostepna(ksiazkaId)) {
+            return Odpowiedz.WYPOZYCZALNIA_KSIAZKA_NIE_JEST_DOSTEPNA;
+        }
+        Konto konto = kontaUzytkownik.get(uzytkowniId);
+        if (!konto.zaplac(ksiazka.kosztWyporzyczenia)) {
+            return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
+        }
+        wypozyczalnia.wypozycz(ksiazkaId, uzytkowniId);
+        return Odpowiedz.OK;
     }
 
     public void oddaj(int ksiazkaId, int uzytkowniId) {

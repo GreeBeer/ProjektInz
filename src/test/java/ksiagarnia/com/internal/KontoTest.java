@@ -1,5 +1,6 @@
 package ksiagarnia.com.internal;
 
+import ksiagarnia.com.internal.user.Konto;
 import org.junit.Assert;
 import org.junit.Test;
 

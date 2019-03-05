@@ -1,4 +1,4 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.zbiory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Przechowywuje tylko id do ksiazek wraz z ich iloscia w zbiorze
  */
-abstract class ZbiorKsiazek {
+public abstract class ZbiorKsiazek {
     private final Map<Integer, Integer> ksiazkaDoIlosc = new HashMap<>(); // ksiazka id do ilosc
 
     public void dodajKsiazke(int ksiazkaId, int ilosc) {

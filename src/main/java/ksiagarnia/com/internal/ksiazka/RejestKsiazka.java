@@ -1,11 +1,12 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.ksiazka;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Baza danych wszystkich istniejacych ksiazek
  */
-class RejestKsiazka {
+public class RejestKsiazka {
     private final ArrayList<Ksiazka> ksiazkiList = new ArrayList<>(); // ksiazka id -> Ksiazka
 
     public void dodajKsiazke(Ksiazka ksiazka) {
@@ -13,8 +14,8 @@ class RejestKsiazka {
     }
 
     public Ksiazka znajdzKsiazke(int ksiazkaId) {
-        for(Ksiazka ksiazka : ksiazkiList) {
-            if(ksiazka.id == ksiazkaId){
+        for (Ksiazka ksiazka : ksiazkiList) {
+            if (ksiazka.id == ksiazkaId) {
                 return ksiazka;
             }
         }

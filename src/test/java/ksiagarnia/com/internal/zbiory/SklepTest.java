@@ -1,4 +1,4 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.zbiory;
 
 import org.junit.Assert;
 import org.junit.Test;

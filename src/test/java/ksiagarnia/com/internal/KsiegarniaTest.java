@@ -1,5 +1,10 @@
 package ksiagarnia.com.internal;
 
+import ksiagarnia.com.Ksiegarnia;
+import ksiagarnia.com.Odpowiedz;
+import ksiagarnia.com.internal.ksiazka.GatunekKsiazki;
+import ksiagarnia.com.internal.ksiazka.Ksiazka;
+import ksiagarnia.com.internal.user.Uzytkownik;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +29,7 @@ public class KsiegarniaTest {
     public void kupKsiazkeKsiazkaNieIstniejeWSklepie() {
         Ksiegarnia ksiegarnia = new Ksiegarnia();
         ksiegarnia.rejest(new Uzytkownik(0, "", "", new HashSet<>()), 0);
-        ksiegarnia.rejestKsiazka(new Ksiazka(0, "",0, "", GatunekKsiazki.DRAMAT, 0,0));
+        ksiegarnia.rejestKsiazka(new Ksiazka(0, "", 0, "", GatunekKsiazki.DRAMAT, 0, 0));
         //ksiegarnia.rejestKsiazkaDoSklep(0, 1);
         Assert.assertEquals(Odpowiedz.SKLEP_KSIAZKA_NIE_JEST_DOSTEPNA, ksiegarnia.kup(0, 0));
     }

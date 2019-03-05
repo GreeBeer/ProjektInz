@@ -1,8 +1,8 @@
-package ksiagarnia.com.internal;
+package ksiagarnia.com.internal.user;
 
 import java.math.BigDecimal;
 
-class Konto {
+public class Konto {
     public final int uzytkownikId;
     // java kwoty sa przechowywane w BigDecimal nie float czy double
     private BigDecimal saldo;
@@ -14,6 +14,7 @@ class Konto {
 
     /**
      * Metoda umniejsza konto uzytkownika jezeli jest na nim wystarczajaco srodkow
+     *
      * @return true jezeli mamy wystarczajaco pieniedzy na koncie aby zaplicic, false innaczej
      */
     public boolean zaplac(double wartosc) {
