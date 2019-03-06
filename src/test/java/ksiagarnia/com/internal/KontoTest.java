@@ -10,6 +10,6 @@ public class KontoTest {
     public void testSaldoRosnie() {
         Konto konto = new Konto(1, 0);
         konto.doladujSaldo(10);
-        Assert.assertEquals(10, konto.podajSaldo(), 0);
+        Assert.assertEquals(2, konto.podajSaldo(), 0);
     }
 }
