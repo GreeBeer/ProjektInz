@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Ksiegarnia ksiegarnia = new Ksiegarnia();
         ksiegarnia.rejest(new Uzytkownik(0, "Marek", "W", new HashSet<>()), 100);
-        ksiegarnia.rejest(new Uzytkownik(002, "TOMEK", "Z", new HashSet<>()), 200);
+
         ksiegarnia.rejestKsiazka(new Ksiazka(0, "X", 1, "", GatunekKsiazki.DRAMAT, 50, 5));
         ksiegarnia.rejestKsiazka(new Ksiazka(1, "X", 1, "", GatunekKsiazki.KRYMINAL, 5, 5));
         ksiegarnia.rejestKsiazka(new Ksiazka(23, "cc", 1992, "", GatunekKsiazki.KOMEDIA, 300, 5));
