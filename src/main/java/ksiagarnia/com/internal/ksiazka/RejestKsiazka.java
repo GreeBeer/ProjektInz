@@ -23,13 +23,14 @@ public class RejestKsiazka {
     }
 
     public ArrayList<Ksiazka> znajdzKsiazki(Collection<Integer> ids) {
-        ArrayList<Ksiazka> ksiazkaSet = new ArrayList<>();
+        ArrayList<Ksiazka> list = new ArrayList<>();
+        if (ids == null || ids.isEmpty()) return list;
         for (Ksiazka ksiazka : ksiazkiList) {
             if (ids.contains(ksiazka.id)) {
-                ksiazkaSet.add(ksiazka);
+                list.add(ksiazka);
             }
         }
-        return ksiazkaSet;
+        return list;
     }
 
     public ArrayList<Ksiazka> podajKsiazki() {
