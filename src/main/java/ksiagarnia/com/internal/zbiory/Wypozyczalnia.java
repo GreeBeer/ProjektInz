@@ -30,7 +30,7 @@ public class Wypozyczalnia extends ZbiorKsiazek {
         // uaktualniamy stan naszych ksiazek w wypozyczalni
         Integer ilosc = podajIloscDostepnych(ksiazkaId);
         if (ilosc == null) throw new IllegalStateException("Ksiazka nie istnieje w wypozyczalni");
-        uakutalnijIlosc(ksiazkaId, ilosc - 1);
+        uaktualnijIlosc(ksiazkaId, ilosc - 1);
         return true;
     }
 
@@ -42,6 +42,6 @@ public class Wypozyczalnia extends ZbiorKsiazek {
         // uaktualniamy stan naszych ksiazek w wypozyczalni
         Integer ilosc = podajIloscDostepnych(ksiazkaId);
         if (ilosc == null) throw new IllegalStateException("Ksiazka nie istnieje w wypozyczalni");
-        uakutalnijIlosc(ksiazkaId, ilosc + 1);
+        uaktualnijIlosc(ksiazkaId, ilosc + 1);
     }
 }

@@ -4,5 +4,4 @@ public enum GatunekKsiazki {
     DRAMAT,
     KRYMINAL,
     KOMEDIA,
-
 }

@@ -20,14 +20,14 @@ public class Main {
     }
 
     private static void initialData() {
-        ksiegarnia.rejest(new Uzytkownik(
+        ksiegarnia.rejestr(new Uzytkownik(
                         0,
                         "Marek",
                         "W",
                         new HashSet<>()
                 ),
                 100);
-        ksiegarnia.rejestKsiazka(new Ksiazka(
+        ksiegarnia.rejestrKsiazka(new Ksiazka(
                 0,
                 "X",
                 1,
@@ -36,7 +36,7 @@ public class Main {
                 50,
                 5)
         );
-        ksiegarnia.rejestKsiazka(new Ksiazka(
+        ksiegarnia.rejestrKsiazka(new Ksiazka(
                 1,
                 "X",
                 1,
@@ -46,8 +46,8 @@ public class Main {
                 5)
         );
 
-        ksiegarnia.rejestKsiazkaDoSklep(0, 10);
-        ksiegarnia.rejestKsiazkaDoWypozyczalni(1, 5);
+        ksiegarnia.rejestrKsiazkaDoSklep(0, 10);
+        ksiegarnia.rejestrKsiazkaDoWypozyczalni(1, 5);
     }
 
     private static void promptEnterKey() {

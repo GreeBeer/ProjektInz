@@ -21,7 +21,7 @@ public abstract class ZbiorKsiazek {
         return ksiazkaDoIlosc.get(ksiazkaId);
     }
 
-    protected void uakutalnijIlosc(int ksiazkaId, int nowaIlosc) {
+    protected void uaktualnijIlosc(int ksiazkaId, int nowaIlosc) {
         ksiazkaDoIlosc.put(ksiazkaId, nowaIlosc);
     }
 }

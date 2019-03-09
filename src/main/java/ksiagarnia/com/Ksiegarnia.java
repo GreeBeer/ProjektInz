@@ -32,20 +32,20 @@ public class Ksiegarnia {
         this.wypozyczalnia = new Wypozyczalnia();
     }
 
-    public void rejest(Uzytkownik uzytkownik, double saldo) {
+    public void rejestr(Uzytkownik uzytkownik, double saldo) {
         uzytkownikMap.put(uzytkownik.id, uzytkownik);
         kontaUzytkownik.put(uzytkownik.id, new Konto(uzytkownik.id, saldo));
     }
 
-    public void rejestKsiazka(Ksiazka ksiazka) {
+    public void rejestrKsiazka(Ksiazka ksiazka) {
         rejestKsiazka.dodajKsiazke(ksiazka);
     }
 
-    public void rejestKsiazkaDoWypozyczalni(int id, int ilosc) {
+    public void rejestrKsiazkaDoWypozyczalni(int id, int ilosc) {
         wypozyczalnia.dodajKsiazke(id, ilosc);
     }
 
-    public void rejestKsiazkaDoSklep(int id, int ilosc) {
+    public void rejestrKsiazkaDoSklep(int id, int ilosc) {
         sklep.dodajKsiazke(id, ilosc);
     }
 
