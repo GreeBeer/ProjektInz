@@ -2,5 +2,7 @@ package ksiagarnia.com.internal.ksiazka;
 
 public enum GatunekKsiazki {
     DRAMAT,
-    KRYMINAL
+    KRYMINAL,
+    KOMEDIA,
+
 }
