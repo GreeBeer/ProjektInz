@@ -1,7 +1,6 @@
 # ProjektInz
 
-sudo docker run   -u root   --rm   -d   -p 8080:8080   -p 50000:50000   -v jenkins-data:/var/jenkins_home   -v /var/run/docker.sock:/var/run/docker.sock   jenkinsci/blueocean
-
+sudo docker run -u root --rm -d -p 8080:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean
 Czy ok ze jest github
 Czy ok ze jenkins dziala na docker
 Czy ok ze jenkins ma jednego agenta

@@ -5,6 +5,8 @@ import ksiagarnia.com.internal.ksiazka.Ksiazka;
 import ksiagarnia.com.internal.user.Uzytkownik;
 
 import java.io.IOException;
+
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -23,6 +25,13 @@ public class Main {
         ksiegarnia.rejestr(new Uzytkownik(
                         0,
                         "Marek",
+                        "W",
+                        new HashSet<>()
+                ),
+                100);
+        ksiegarnia.rejestr(new Uzytkownik(
+                        1,
+                        "DarekB",
                         "W",
                         new HashSet<>()
                 ),
@@ -142,6 +151,8 @@ public class Main {
     }
 
     private static void userMenu(Scanner scanner) {
+
+
         System.out.println("Podaj id uzytkownika");
         int idUzytkownik = scanner.nextInt();
 
@@ -166,6 +177,8 @@ public class Main {
                     System.out.println(kup);
                     break;
                 case 'C':
+
+
                     break;
                 case 'P':
                     return;
