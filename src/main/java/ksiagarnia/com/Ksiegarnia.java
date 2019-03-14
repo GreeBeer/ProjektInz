@@ -3,6 +3,7 @@ package ksiagarnia.com;
 import ksiagarnia.com.internal.ksiazka.Ksiazka;
 import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
 import ksiagarnia.com.internal.user.Konto;
+import ksiagarnia.com.internal.user.Login;
 import ksiagarnia.com.internal.user.Uzytkownik;
 import ksiagarnia.com.internal.zbiory.Sklep;
 import ksiagarnia.com.internal.zbiory.Wypozyczalnia;
@@ -18,6 +19,7 @@ import java.util.Set;
  * Czyli ze swiata zewnetrznego zawsze komunikujemy sie poprzez ta klase.
  */
 public class Ksiegarnia {
+    private final Login login;
     private final RejestKsiazka rejestKsiazka;
     private final Map<Integer, Uzytkownik> uzytkownikMap;
     private final Map<Integer, Konto> kontaUzytkownik;
@@ -25,11 +27,23 @@ public class Ksiegarnia {
     private final Wypozyczalnia wypozyczalnia;
 
     public Ksiegarnia() {
-        this.rejestKsiazka = new RejestKsiazka();
-        this.uzytkownikMap = new HashMap<>();
-        this.kontaUzytkownik = new HashMap<>();
-        this.sklep = new Sklep();
-        this.wypozyczalnia = new Wypozyczalnia();
+        login = new Login();
+        rejestKsiazka = new RejestKsiazka();
+        uzytkownikMap = new HashMap<>();
+        kontaUzytkownik = new HashMap<>();
+        sklep = new Sklep();
+        wypozyczalnia = new Wypozyczalnia();
+    }
+
+    public Odpowiedz login(String userName, String password) {
+        if (login.zaloguj(userName, password)) {
+            return login.isAdmin() ? Odpowiedz.LOGOWANIE_ADMIN_OK : Odpowiedz.LOGOWANIE_OK;
+        }
+        return Odpowiedz.LOGOWANIE_BLAD;
+    }
+
+    public int podajIdZalogowanegoUzytkownika() {
+        return login.getIdZalogowanego();
     }
 
     public void rejestr(Uzytkownik uzytkownik, double saldo) {

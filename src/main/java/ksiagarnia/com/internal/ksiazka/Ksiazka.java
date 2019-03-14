@@ -7,7 +7,7 @@ public class Ksiazka {
     public final String tytul;
     public final int rokWydania;
     public final String isbn;
-    public final GatunekKsiazki gatunekKsiazki;
+    public final String gatunekKsiazki;
     public final double cenaNowej;
     public final double kosztWyporzyczenia;
 
@@ -15,7 +15,7 @@ public class Ksiazka {
                    String tytul,
                    int rokWydania,
                    String isbn,
-                   GatunekKsiazki gatunekKsiazki,
+                   String gatunekKsiazki,
                    double cenaNowej,
                    double kosztWyporzyczenia) {
         this.id = id;
@@ -40,7 +40,7 @@ public class Ksiazka {
                 Double.compare(ksiazka.kosztWyporzyczenia, kosztWyporzyczenia) == 0 &&
                 Objects.equals(tytul, ksiazka.tytul) &&
                 Objects.equals(isbn, ksiazka.isbn) &&
-                gatunekKsiazki == ksiazka.gatunekKsiazki;
+                Objects.equals(gatunekKsiazki, ksiazka.gatunekKsiazki);
     }
 
     @Override

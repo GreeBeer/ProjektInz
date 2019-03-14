@@ -1,14 +1,11 @@
 package ksiagarnia.com;
 
-import ksiagarnia.com.internal.ksiazka.GatunekKsiazki;
+import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.ksiazka.Ksiazka;
 import ksiagarnia.com.internal.user.Uzytkownik;
 
 import java.io.IOException;
-
-
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
@@ -16,47 +13,15 @@ public class Main {
     private final static Ksiegarnia ksiegarnia = new Ksiegarnia();
 
     public static void main(String[] args) {
+        HibernateUtils.getSessionFactory().openSession().close();
         initialData();
         Scanner scanner = new Scanner(System.in);
         mainMenu(scanner);
     }
 
     private static void initialData() {
-        ksiegarnia.rejestr(new Uzytkownik(
-                        0,
-                        "Marek",
-                        "W",
-                        new HashSet<>()
-                ),
-                100);
-        ksiegarnia.rejestr(new Uzytkownik(
-                        1,
-                        "DarekB",
-                        "W",
-                        new HashSet<>()
-                ),
-                100);
-        ksiegarnia.rejestrKsiazka(new Ksiazka(
-                0,
-                "X",
-                1,
-                "",
-                GatunekKsiazki.DRAMAT,
-                50,
-                5)
-        );
-        ksiegarnia.rejestrKsiazka(new Ksiazka(
-                1,
-                "X",
-                1,
-                "",
-                GatunekKsiazki.KRYMINAL,
-                5,
-                5)
-        );
-
-        ksiegarnia.rejestrKsiazkaDoSklep(0, 10);
-        ksiegarnia.rejestrKsiazkaDoWypozyczalni(1, 5);
+        ksiegarnia.rejestrKsiazkaDoSklep(1, 10);
+        ksiegarnia.rejestrKsiazkaDoWypozyczalni(2, 5);
     }
 
     private static void promptEnterKey() {
@@ -83,7 +48,7 @@ public class Main {
             System.out.println("(B) zaloguj sie jako Uzytkownik");
             System.out.println("(K) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.next().charAt(0));
+            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
                     adminMenu(scanner);
@@ -99,6 +64,11 @@ public class Main {
     }
 
     private static void adminMenu(Scanner scanner) {
+        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_ADMIN_OK) {
+            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
+            return;
+        }
+
         while (true) {
             System.out.println("Witaj w ksiegarni Admin");
             System.out.println("(A) Wyswietl wszystkie ksiazki");
@@ -109,7 +79,7 @@ public class Main {
             System.out.println("(P) Powrot");
             System.out.println("(K) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.next().charAt(0));
+            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
                     Collection<Ksiazka> ksiazki = ksiegarnia.podajKsiazki();
@@ -136,6 +106,14 @@ public class Main {
         }
     }
 
+    private static Odpowiedz loginEkran(Scanner scanner) {
+        System.out.println("Podaj userName");
+        String userName = scanner.nextLine();
+        System.out.println("Podaj haslo");
+        String password = scanner.nextLine();
+        return ksiegarnia.login(userName, password);
+    }
+
     private static void wyswietlKsiazki(Collection<Ksiazka> ksiazki) {
         wyswietlKsiazki(ksiazki, "");
     }
@@ -151,10 +129,11 @@ public class Main {
     }
 
     private static void userMenu(Scanner scanner) {
-
-
-        System.out.println("Podaj id uzytkownika");
-        int idUzytkownik = scanner.nextInt();
+        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_OK) {
+            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
+            return;
+        }
+        int idUzytkownik = ksiegarnia.podajIdZalogowanegoUzytkownika();
 
         while (true) {
             System.out.println("Witaj w ksiegarni Uzytkownik");
@@ -164,7 +143,7 @@ public class Main {
             System.out.println("(P) Powrot");
             System.out.println("(K) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.next().charAt(0));
+            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
                     wyswietlKsiazki(ksiegarnia.podajKsiazkiKupione(idUzytkownik), "KUPIONE");
