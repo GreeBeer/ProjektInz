@@ -16,7 +16,7 @@ public class KsiazkaService {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<Ksiazka> list = session
-                .createSQLQuery("SELECT * FROM Ksiazka WHERE dataRejestracji IS NULL")
+                .createSQLQuery("SELECT * FROM Ksiazka WHERE dataRejestracji IS NOT NULL")
                 .addEntity(Ksiazka.class)
                 .list();
 
@@ -30,7 +30,7 @@ public class KsiazkaService {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<Ksiazka> list = session
-                .createSQLQuery("SELECT * FROM Ksiazka WHERE dataRejestracji IS NOT NULL")
+                .createSQLQuery("SELECT * FROM Ksiazka WHERE dataRejestracji IS NULL")
                 .addEntity(Ksiazka.class)
                 .list();
 

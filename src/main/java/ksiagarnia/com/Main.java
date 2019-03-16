@@ -44,7 +44,7 @@ public class Main {
             System.out.println("(B) zaloguj sie jako Uzytkownik");
             System.out.println("(Q) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
+            char wybor = czytajZnak(scanner);
             switch (wybor) {
                 case 'A':
                     adminMenu(scanner);
@@ -84,7 +84,7 @@ public class Main {
             System.out.println("(P) Powrot");
             System.out.println("(Q) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
+            char wybor = czytajZnak(scanner);
             switch (wybor) {
                 case 'A': {
                     List<GatunekKsiazki> gatunki = ksiegarnia.podajGatunki();
@@ -206,6 +206,11 @@ public class Main {
         }
     }
 
+    private static char czytajZnak(Scanner scanner) {
+        String line = scanner.nextLine();
+        return line.isEmpty() ? ' ' : Character.toUpperCase(line.charAt(0));
+    }
+
     private static void wypiszGatunki(List<GatunekKsiazki> gatunki) {
         System.out.println("######## Gatunki ########");
         System.out.println();
@@ -304,7 +309,7 @@ public class Main {
             System.out.println("(P) Powrot");
             System.out.println("(Q) Koniec");
 
-            char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
+            char wybor = czytajZnak(scanner);
             switch (wybor) {
                 case 'A':
                     wyswietlKupioneKsiazki(ksiegarnia.podajMojeKupioneKsiazki(), "KUPIONE");
