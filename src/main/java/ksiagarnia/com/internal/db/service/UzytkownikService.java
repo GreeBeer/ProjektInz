@@ -44,7 +44,9 @@ public class UzytkownikService {
 
     public void dodajUzytkownika(Uzytkownik uzytkownik) {
         Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         session.save(uzytkownik);
+        transaction.commit();
         session.close();
     }
 

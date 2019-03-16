@@ -4,13 +4,15 @@ import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.db.model.GatunekKsiazki;
 import ksiagarnia.com.internal.db.model.Ksiazka;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class KsiazkaService {
 
     @SuppressWarnings("unchecked")
-    public List<Ksiazka> listaKsiazekNieZarejestrowanych() {
+    public List<Ksiazka> listaKsiazekZarejestrowanych() {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<Ksiazka> list = session
@@ -24,22 +26,7 @@ public class KsiazkaService {
     }
 
     @SuppressWarnings("unchecked")
-    public Ksiazka znajdzKsiazke(int id) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-
-        Ksiazka ksiazka = (Ksiazka) session
-                .createSQLQuery("SELECT * FROM Ksiazka WHERE id = :id")
-                .addEntity(Ksiazka.class)
-                .setParameter("id", id)
-                .getSingleResult();
-
-        session.close();
-
-        return ksiazka;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Ksiazka> listaKsiazekZarejestrowanych() {
+    public List<Ksiazka> listaKsiazekNieZarejestrowanych() {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<Ksiazka> list = session
@@ -52,10 +39,30 @@ public class KsiazkaService {
         return list;
     }
 
-    public void zapiszKsiazke(Ksiazka ksiazka) {
+    @SuppressWarnings("unchecked")
+    public Ksiazka znajdzKsiazke(int id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
+        Ksiazka ksiazka = null;
+        try {
+            ksiazka = (Ksiazka) session
+                    .createSQLQuery("SELECT * FROM Ksiazka WHERE id = :id")
+                    .addEntity(Ksiazka.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException ignore) {
+
+        }
+        session.close();
+
+        return ksiazka;
+    }
+
+    public void zapiszKsiazke(Ksiazka ksiazka) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(ksiazka);
+        transaction.commit();
         session.close();
     }
 

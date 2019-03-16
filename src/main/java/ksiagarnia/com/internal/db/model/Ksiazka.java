@@ -11,7 +11,7 @@ public class Ksiazka {
     public String tytul;
     public String autor;
     public Timestamp rokWydania;
-    public Timestamp dateRejestracji;
+    public Timestamp dataRejestracji;
     public String isbn;
 
     @ManyToOne
@@ -25,13 +25,13 @@ public class Ksiazka {
     public Ksiazka(String tytul,
                    String autor,
                    Timestamp rokWydania,
-                   Timestamp dateRejestracji,
+                   Timestamp dataRejestracji,
                    String isbn,
                    int idGatunek) {
         this.tytul = tytul;
         this.autor = autor;
         this.rokWydania = rokWydania;
-        this.dateRejestracji = dateRejestracji;
+        this.dataRejestracji = dataRejestracji;
         this.isbn = isbn;
         this.idGatunek = new GatunekKsiazki(idGatunek, null);
     }

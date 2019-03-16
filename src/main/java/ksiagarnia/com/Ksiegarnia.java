@@ -56,6 +56,10 @@ public class Ksiegarnia {
         return rejestKsiazka.podajKsiazkiZarejestrowane();
     }
 
+    public Collection<Ksiazka> podajNieDostepneKsiazki() {
+        return rejestKsiazka.podajKsiazkiNieZarejestrowane();
+    }
+
     public List<GatunekKsiazki> podajGatunki() {
         return rejestKsiazka.podajGatunki();
     }

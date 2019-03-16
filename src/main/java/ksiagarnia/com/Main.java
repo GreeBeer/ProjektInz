@@ -109,7 +109,7 @@ public class Main {
                     break;
                 }
                 case 'B': {
-                    Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
+                    Collection<Ksiazka> ksiazki = ksiegarnia.podajNieDostepneKsiazki();
                     wyswietlKsiazki(ksiazki, "REJESTR");
                     System.out.println("Ksiazka id do zarejestrowania");
                     int ksiazkaId = Integer.valueOf(scanner.nextLine().trim());
@@ -159,8 +159,8 @@ public class Main {
                     break;
                 }
                 case 'H': {
-                    Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
-                    wyswietlKsiazki(ksiazki, "REJESTR");
+                    wyswietlKsiazki(ksiegarnia.podajDostepneKsiazki(), "REJESTR DOSTEPNE");
+                    wyswietlKsiazki(ksiegarnia.podajNieDostepneKsiazki(), "REJESTR NIE DOSTEPNE");
                     break;
                 }
                 case 'I': {

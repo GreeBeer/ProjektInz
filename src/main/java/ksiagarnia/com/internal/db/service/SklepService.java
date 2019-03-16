@@ -4,6 +4,7 @@ import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.db.model.KsiazkaSklep;
 import ksiagarnia.com.internal.db.model.KupionaKsiazka;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -56,15 +57,18 @@ public class SklepService {
     @SuppressWarnings("unchecked")
     public void dodajZakukpionaKsiazke(KupionaKsiazka kupionaKsiazka) {
         Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         session.save(kupionaKsiazka);
+        transaction.commit();
         session.close();
     }
 
     @SuppressWarnings("unchecked")
     public void uaktualnijLubDodaj(KsiazkaSklep ksiazkaSklep) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-
+        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(ksiazkaSklep);
+        transaction.commit();
         session.close();
     }
 

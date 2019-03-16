@@ -33,7 +33,7 @@ public class RejestKsiazka {
         if (!login.isAdmin()) return Odpowiedz.ADMIN_LOGIN_POTRZEBNY;
         Ksiazka ksiazka = ksiazkaService.znajdzKsiazke(id);
         if (ksiazka == null) return Odpowiedz.REJESTRACJA_KSIAZKA_NIE_ISTNIEJE;
-        ksiazka.dateRejestracji = new Timestamp(System.currentTimeMillis());
+        ksiazka.dataRejestracji = new Timestamp(System.currentTimeMillis());
         ksiazkaService.zapiszKsiazke(ksiazka);
         return Odpowiedz.REJESTRACJA_OK;
     }
@@ -42,7 +42,7 @@ public class RejestKsiazka {
         if (!login.isAdmin()) return Odpowiedz.ADMIN_LOGIN_POTRZEBNY;
         Ksiazka ksiazka = ksiazkaService.znajdzKsiazke(id);
         if (ksiazka == null) return Odpowiedz.REJESTRACJA_KSIAZKA_NIE_ISTNIEJE;
-        ksiazka.dateRejestracji = null;
+        ksiazka.dataRejestracji = null;
         ksiazkaService.zapiszKsiazke(ksiazka);
         return Odpowiedz.REJESTRACJA_OK;
     }
@@ -53,5 +53,9 @@ public class RejestKsiazka {
 
     public List<Ksiazka> podajKsiazkiZarejestrowane() {
         return ksiazkaService.listaKsiazekZarejestrowanych();
+    }
+
+    public List<Ksiazka> podajKsiazkiNieZarejestrowane() {
+        return ksiazkaService.listaKsiazekNieZarejestrowanych();
     }
 }

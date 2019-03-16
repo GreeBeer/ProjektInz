@@ -19,7 +19,7 @@ public class Konto {
      */
     public Odpowiedz zaplac(double wartosc) {
         if (wartosc > saldo.doubleValue()) return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
-        saldo = saldo.min(BigDecimal.valueOf(wartosc));
+        saldo = saldo.subtract(BigDecimal.valueOf(wartosc));
         return Odpowiedz.OK;
     }
 
