@@ -1,8 +1,6 @@
 package ksiagarnia.com.internal.db;
 
-import ksiagarnia.com.internal.db.model.GatunekKsiazki;
-import ksiagarnia.com.internal.db.model.Ksiazka;
-import ksiagarnia.com.internal.db.model.Uzytkownik;
+import ksiagarnia.com.internal.db.model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -22,6 +20,8 @@ public class HibernateUtils {
             configuration.addAnnotatedClass(GatunekKsiazki.class);
             configuration.addAnnotatedClass(Ksiazka.class);
             configuration.addAnnotatedClass(Uzytkownik.class);
+            configuration.addAnnotatedClass(WypozyczonaKsiazka.class);
+            configuration.addAnnotatedClass(KupionaKsiazka.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties())

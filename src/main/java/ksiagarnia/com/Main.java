@@ -1,11 +1,12 @@
 package ksiagarnia.com;
 
 import ksiagarnia.com.internal.db.HibernateUtils;
-import ksiagarnia.com.internal.ksiazka.Ksiazka;
-import ksiagarnia.com.internal.user.Uzytkownik;
+import ksiagarnia.com.internal.db.model.GatunekKsiazki;
+import ksiagarnia.com.internal.db.model.Ksiazka;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -13,15 +14,11 @@ public class Main {
     private final static Ksiegarnia ksiegarnia = new Ksiegarnia();
 
     public static void main(String[] args) {
+        // laczymy sie z baza danych
         HibernateUtils.getSessionFactory().openSession().close();
-        initialData();
+
         Scanner scanner = new Scanner(System.in);
         mainMenu(scanner);
-    }
-
-    private static void initialData() {
-        ksiegarnia.rejestrKsiazkaDoSklep(1, 10);
-        ksiegarnia.rejestrKsiazkaDoWypozyczalni(2, 5);
     }
 
     private static void promptEnterKey() {
@@ -71,29 +68,71 @@ public class Main {
 
         while (true) {
             System.out.println("Witaj w ksiegarni Admin");
-            System.out.println("(A) Wyswietl wszystkie ksiazki");
-            System.out.println("(B) Wyswietl wszystkie ksiazki uzytkownika");
-            System.out.println("(C) Wyswietl uzytkownikow");
-            System.out.println("(D) Rejestracja Uzytkownika");
-            System.out.println("(E) Dodaj Ksiazke");
+            System.out.println("(A) Dodaj Ksiazke");
+            System.out.println("(B) Zarejestruj Ksiazke");
+            System.out.println("(C) Wyrejestruj Ksiazke");
+            System.out.println("(D) Wyswietl wszystkie ksiazki");
+            System.out.println("(E) Dodaj Uzytkownika");
+            System.out.println("(F) Wyswietl uzytkownikow");
+            System.out.println("(G) Wyswietl wszystkie wypozyczone ksiazki uzytkownika");
+            System.out.println("(H) Wyswietl wszystkie kupione ksiazki uzytkownika");
+
             System.out.println("(P) Powrot");
             System.out.println("(K) Koniec");
 
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
-                    Collection<Ksiazka> ksiazki = ksiegarnia.podajKsiazki();
+                    List<GatunekKsiazki> gatunki = ksiegarnia.podajGatunki();
+                    wypiszGatunki(gatunki);
+                    System.out.print("Podaj gatunek id: ");
+                    int idGatunek = Integer.valueOf(scanner.nextLine().trim());
+                    System.out.print("Podaj gatunek tytul: ");
+                    String tytul = scanner.nextLine();
+                    System.out.print("Podaj gatunek autor: ");
+                    String autor = scanner.nextLine();
+                    System.out.print("Podaj gatunek rokWydania: ");
+                    int rokWydania = Integer.valueOf(scanner.nextLine().trim());
+                    System.out.print("Podaj gatunek isbn: ");
+                    String isbn = scanner.nextLine();
+                    ksiegarnia.dodajKsiazke(
+                            idGatunek,
+                            tytul,
+                            autor,
+                            rokWydania,
+                            isbn
+                    );
+                    break;
+                case 'B': {
+                    Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
+                    wyswietlKsiazki(ksiazki, "REJESTR");
+                    System.out.println("Ksiazka id do zarejestrowania");
+                    int ksiazkaId = Integer.valueOf(scanner.nextLine().trim());
+                    Odpowiedz odpowiedz = ksiegarnia.zarejestrujKsiazke(ksiazkaId);
+                    System.out.println(odpowiedz);
+                    break;
+                }
+                case 'C': {
+                    Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
+                    wyswietlKsiazki(ksiazki, "REJESTR");
+                    System.out.println("Ksiazka id do wyrejestrowania");
+                    int ksiazkaId = Integer.valueOf(scanner.nextLine().trim());
+                    Odpowiedz odpowiedz = ksiegarnia.wyrejestrujKsiazke(ksiazkaId);
+                    System.out.println(odpowiedz);
+                    break;
+                }
+                case 'D': {
+                    Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
                     wyswietlKsiazki(ksiazki, "REJESTR");
                     break;
-                case 'B':
-                    break;
-                case 'C':
-                    Collection<Uzytkownik> uzytkownicy = ksiegarnia.podajUzytkownikow();
-                    System.out.println(uzytkownicy.toString());
-                    break;
-                case 'D':
-                    break;
+                }
                 case 'E':
+                    break;
+                case 'F':
+                    break;
+                case 'G':
+                    break;
+                case 'H':
                     break;
                 case 'P':
                     return;
@@ -104,6 +143,16 @@ public class Main {
             promptEnterKey();
             clearScreen();
         }
+    }
+
+    private static void wypiszGatunki(List<GatunekKsiazki> gatunki) {
+        System.out.println("######## Gatunki ########");
+        System.out.println();
+        for (GatunekKsiazki gatunek : gatunki) {
+            System.out.println(gatunek.toString());
+        }
+        System.out.println();
+        System.out.println("###############");
     }
 
     private static Odpowiedz loginEkran(Scanner scanner) {
@@ -146,14 +195,14 @@ public class Main {
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
-                    wyswietlKsiazki(ksiegarnia.podajKsiazkiKupione(idUzytkownik), "KUPIONE");
-                    wyswietlKsiazki(ksiegarnia.podajKsiazkiWypozyczone(idUzytkownik), "WYPOZYCZONE");
+//                    wyswietlKsiazki(ksiegarnia.podajKsiazkiKupione(idUzytkownik), "KUPIONE");
+//                    wyswietlKsiazki(ksiegarnia.podajKsiazkiWypozyczone(idUzytkownik), "WYPOZYCZONE");
                     break;
                 case 'B':
                     System.out.println("Podaj id ksiazki");
                     int idKsiazka = scanner.nextInt();
-                    Odpowiedz kup = ksiegarnia.kup(idKsiazka, idUzytkownik);
-                    System.out.println(kup);
+//                    Odpowiedz kup = ksiegarnia.kup(idKsiazka, idUzytkownik);
+//                    System.out.println(kup);
                     break;
                 case 'C':
 

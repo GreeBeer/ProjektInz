@@ -11,4 +11,19 @@ public class GatunekKsiazki {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
     public String nazwa;
+
+    @Override
+    public String toString() {
+        return "id: " + id + ", " + "nazwa: " + nazwa;
+    }
+
+    // konstructor dla hibernate
+    public GatunekKsiazki() {
+
+    }
+
+    public GatunekKsiazki(int id, String nazwa) {
+        this.id = id;
+        this.nazwa = nazwa;
+    }
 }

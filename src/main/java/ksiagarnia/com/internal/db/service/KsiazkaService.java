@@ -23,6 +23,20 @@ public class KsiazkaService {
         return list;
     }
 
+    @SuppressWarnings("unchecked")
+    public Ksiazka znajdzKsiazke(int id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+
+        Ksiazka ksiazka = (Ksiazka) session
+                .createSQLQuery("SELECT * FROM Ksiazka WHERE id = :id")
+                .addEntity(Ksiazka.class)
+                .setParameter("id", id)
+                .getSingleResult();
+
+        session.close();
+
+        return ksiazka;
+    }
 
     @SuppressWarnings("unchecked")
     public List<Ksiazka> listaKsiazekZarejestrowanych() {
@@ -38,10 +52,10 @@ public class KsiazkaService {
         return list;
     }
 
-    public void dodajKsiazke(Ksiazka ksiazka) {
+    public void zapiszKsiazke(Ksiazka ksiazka) {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
-        session.save(ksiazka);
+        session.saveOrUpdate(ksiazka);
         session.close();
     }
 

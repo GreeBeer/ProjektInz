@@ -29,7 +29,7 @@ public class KsiegarniaTest {
     public void kupKsiazkeKsiazkaNieIstniejeWSklepie() {
         Ksiegarnia ksiegarnia = new Ksiegarnia();
         ksiegarnia.rejestr(new Uzytkownik(0, "", "", new HashSet<>()), 0);
-        ksiegarnia.rejestrKsiazka(new Ksiazka(0, "", 0, "", GatunekKsiazki.DRAMAT, 0, 0));
+        ksiegarnia.dodajKsiazke(new Ksiazka(0, "", 0, "", GatunekKsiazki.DRAMAT, 0, 0));
         //ksiegarnia.rejestrKsiazkaDoSklep(0, 1);
         Assert.assertEquals(Odpowiedz.SKLEP_KSIAZKA_NIE_JEST_DOSTEPNA, ksiegarnia.kup(0, 0));
     }

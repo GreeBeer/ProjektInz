@@ -1,20 +1,15 @@
 package ksiagarnia.com.internal.user;
 
-import ksiagarnia.com.internal.ksiazka.Ksiazka;
-
-import java.util.Set;
 
 public class Uzytkownik {
     public final int id;
     public final String imie;
     public final String nazwisko;
-    public final Set<Ksiazka> ksiazkiZakupione;
 
-    public Uzytkownik(int id, String imie, String nazwisko, Set<Ksiazka> ksiazkiZakupione) {
+    public Uzytkownik(int id, String imie, String nazwisko) {
         this.id = id;
         this.imie = imie;
         this.nazwisko = nazwisko;
-        this.ksiazkiZakupione = ksiazkiZakupione;
     }
 
     @Override
@@ -23,7 +18,6 @@ public class Uzytkownik {
                 "id=" + id +
                 ", imie='" + imie + '\'' +
                 ", nazwisko='" + nazwisko + '\'' +
-                ", ksiazkiZakupione=" + ksiazkiZakupione +
                 '}';
     }
 }
