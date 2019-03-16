@@ -4,6 +4,7 @@ import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.db.model.KsiazkaWypozyczalnia;
 import ksiagarnia.com.internal.db.model.WypozyczonaKsiazka;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -43,7 +44,7 @@ public class WypozyczalniaService {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<WypozyczonaKsiazka> list = session
-                .createSQLQuery("SELECT * FROM WypozyczonaKsiazka WHERE idUzytkownik=:userId")
+                .createSQLQuery("SELECT * FROM WypozyczonaKsiazka WHERE idUzytkownik=:userId AND dataOddania IS NULL")
                 .addEntity(WypozyczonaKsiazka.class)
                 .setParameter("userId", userId)
                 .list();
@@ -54,16 +55,18 @@ public class WypozyczalniaService {
     }
 
     @SuppressWarnings("unchecked")
-    public WypozyczonaKsiazka znajdzWypozyczona(int userId, int ksiazkaId) {
+    public WypozyczonaKsiazka znajdzWypozyczonaNieOddana(int userId, int idKsiazka) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         WypozyczonaKsiazka ksiazka = null;
         try {
             ksiazka = (WypozyczonaKsiazka) session
-                    .createSQLQuery("SELECT * FROM WypozyczonaKsiazka WHERE idUzytkownik=:userId AND ksiazkaId=:idKsiazka")
+                    .createSQLQuery("SELECT * FROM WypozyczonaKsiazka WHERE idUzytkownik=:userId AND idKsiazka=:idKsiazka AND dataOddania IS NULL")
                     .addEntity(WypozyczonaKsiazka.class)
                     .setParameter("userId", userId)
-                    .setParameter("idKsiazka", ksiazkaId)
-                    .getSingleResult();
+                    .setParameter("idKsiazka", idKsiazka)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         } catch (NoResultException ignore) {
 
         }
@@ -75,15 +78,18 @@ public class WypozyczalniaService {
     @SuppressWarnings("unchecked")
     public void uaktualnijLubDodaj(WypozyczonaKsiazka wypozyczonaKsiazka) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        session.save(wypozyczonaKsiazka);
+        Transaction transaction = session.beginTransaction();
+        session.saveOrUpdate(wypozyczonaKsiazka);
+        transaction.commit();
         session.close();
     }
 
     @SuppressWarnings("unchecked")
     public void uaktualnijLubDodaj(KsiazkaWypozyczalnia ksiazkaWypozyczalnia) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-
+        Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(ksiazkaWypozyczalnia);
+        transaction.commit();
         session.close();
     }
 

@@ -50,6 +50,10 @@ public class Uzytkownik {
     }
 
     public Odpowiedz zaplac(double wartosc) {
+        if (!saldoZainiciowane) {
+            saldoZainiciowane = true;
+            konto.ustawSaldo(saldo);
+        }
         return konto.zaplac(wartosc);
     }
 

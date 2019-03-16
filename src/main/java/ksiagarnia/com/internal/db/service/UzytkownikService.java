@@ -5,6 +5,7 @@ import ksiagarnia.com.internal.db.model.Uzytkownik;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class UzytkownikService {
@@ -26,12 +27,16 @@ public class UzytkownikService {
     public Uzytkownik znajdzUzytkownika(String loginName) {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
-        Uzytkownik user = (Uzytkownik) session
-                .createSQLQuery("SELECT * FROM Uzytkownik WHERE loginName = :loginName")
-                .setParameter("loginName", loginName)
-                .addEntity(Uzytkownik.class)
-                .getSingleResult();
+        Uzytkownik user = null;
+        try {
+            user = (Uzytkownik) session
+                    .createSQLQuery("SELECT * FROM Uzytkownik WHERE loginName = :loginName")
+                    .setParameter("loginName", loginName)
+                    .addEntity(Uzytkownik.class)
+                    .getSingleResult();
+        } catch (NoResultException ignore) {
 
+        }
         session.close();
 
         return user;

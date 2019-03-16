@@ -328,7 +328,6 @@ public class Main {
                 }
                 case 'E': {
                     System.out.println("Podaj id ksiazki");
-                    wyswietlWypozyczoneKsiazki(ksiegarnia.podajMojeWypozyczoneKsiazki(), "WYPOZYCZONE PRZEZE MNIE");
                     int ksiazkaId = Integer.parseInt(scanner.nextLine());
                     Odpowiedz odpowiedz = ksiegarnia.oddajKsiazke(ksiazkaId);
                     System.out.println(odpowiedz);

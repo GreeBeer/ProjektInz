@@ -45,8 +45,9 @@ public class Wypozyczalnia {
         Uzytkownik uzytkownik = login.getUzytkownik();
         if (uzytkownik == null) return Odpowiedz.LOGOWANIE_BLAD;
         if (rejestKsiazka.znajdzKsiazke(ksiazkaId) == null) return Odpowiedz.KSIAZKA_NIE_ISTNIEJE;
-        WypozyczonaKsiazka ksiazkaWypozyczona = wypozyczalniaService.znajdzWypozyczona(uzytkownik.id, ksiazkaId);
+        WypozyczonaKsiazka ksiazkaWypozyczona = wypozyczalniaService.znajdzWypozyczonaNieOddana(uzytkownik.id, ksiazkaId);
         if (ksiazkaWypozyczona == null) return Odpowiedz.NIGDY_NIE_WYPOZYCZYL_KSIAZKI;
+        if (ksiazkaWypozyczona.dataOddania != null) return Odpowiedz.KSIAZKA_JEST_JUZ_ODDANA;
         KsiazkaWypozyczalnia ksiazkaWypozyczalnia = wypozyczalniaService.znajdzKsiazke(ksiazkaId);
         if (ksiazkaWypozyczalnia == null) return Odpowiedz.WYPOZYCZALNIA_KSIAZKA_NIE_JEST_DOSTEPNA;
         ksiazkaWypozyczalnia.ilosc += 1;
