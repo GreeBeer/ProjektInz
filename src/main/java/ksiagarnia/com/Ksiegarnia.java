@@ -3,12 +3,14 @@ package ksiagarnia.com;
 import ksiagarnia.com.internal.DateUtil;
 import ksiagarnia.com.internal.db.model.GatunekKsiazki;
 import ksiagarnia.com.internal.db.model.Ksiazka;
-import ksiagarnia.com.internal.db.model.KupionaKsiazka;
+import ksiagarnia.com.internal.db.model.Uzytkownik;
+import ksiagarnia.com.internal.db.service.KsiazkaService;
+import ksiagarnia.com.internal.db.service.UzytkownikService;
 import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
 import ksiagarnia.com.internal.user.Login;
+import ksiagarnia.com.internal.user.Uzytkownicy;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,11 +21,12 @@ import java.util.List;
 public class Ksiegarnia {
     private final Login login;
     private final RejestKsiazka rejestKsiazka;
-
+    private final Uzytkownicy uzytkownicy;
 
     public Ksiegarnia() {
         login = new Login();
-        rejestKsiazka = new RejestKsiazka(login);
+        rejestKsiazka = new RejestKsiazka(login, new KsiazkaService());
+        uzytkownicy = new Uzytkownicy(new UzytkownikService());
     }
 
     public Odpowiedz login(String userName, String password) {
@@ -54,8 +57,12 @@ public class Ksiegarnia {
         return rejestKsiazka.wyrejestrujKsiazke(id);
     }
 
-    public Collection<KupionaKsiazka> podajKupioneKsiazki(int userId) {
-        return Collections.emptySet();
+    public void dodajUzytkownika(String imie, String nazwisko, String loginName, String loginPassword) {
+        uzytkownicy.dodajUzytkownika(new Uzytkownik(imie, nazwisko, loginName, loginPassword, false));
+    }
+
+    public Collection<Uzytkownik> podajUzytkownikow() {
+        return uzytkownicy.podajUzytkownikow();
     }
 
 //    public void rejestr(Uzytkownik uzytkownik, double saldo) {

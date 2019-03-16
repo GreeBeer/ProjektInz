@@ -16,9 +16,9 @@ public class RejestKsiazka {
     private final KsiazkaService ksiazkaService;
     private final Login login;
 
-    public RejestKsiazka(Login login) {
+    public RejestKsiazka(Login login, KsiazkaService ksiazkaService) {
         this.login = login;
-        ksiazkaService = new KsiazkaService();
+        this.ksiazkaService = ksiazkaService;
     }
 
     public List<GatunekKsiazki> podajGatunki() {

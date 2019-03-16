@@ -13,7 +13,7 @@ public class UzytkownikService {
         Session session = HibernateUtils.getSessionFactory().openSession();
 
         List<Uzytkownik> list = session
-                .createSQLQuery("SELECT * FROM Uzytkownik")
+                .createSQLQuery("SELECT * FROM Uzytkownik WHERE admin = 0")
                 .addEntity(Uzytkownik.class)
                 .list();
 
@@ -34,5 +34,11 @@ public class UzytkownikService {
         session.close();
 
         return user;
+    }
+
+    public void dodajUzytkownika(Uzytkownik uzytkownik) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        session.save(uzytkownik);
+        session.close();
     }
 }

@@ -1,14 +1,14 @@
 package ksiagarnia.com.internal.user;
 
+import ksiagarnia.com.Odpowiedz;
+
 import java.math.BigDecimal;
 
 public class Konto {
-    public final int uzytkownikId;
     // java kwoty sa przechowywane w BigDecimal nie float czy double
     private BigDecimal saldo;
 
-    public Konto(int uzytkownikId, double saldo) {
-        this.uzytkownikId = uzytkownikId;
+    public Konto(double saldo) {
         this.saldo = BigDecimal.valueOf(saldo);
     }
 
@@ -17,14 +17,18 @@ public class Konto {
      *
      * @return true jezeli mamy wystarczajaco pieniedzy na koncie aby zaplicic, false innaczej
      */
-    public boolean zaplac(double wartosc) {
-        if (wartosc > saldo.doubleValue()) return false;
+    public Odpowiedz zaplac(double wartosc) {
+        if (wartosc > saldo.doubleValue()) return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
         saldo = saldo.min(BigDecimal.valueOf(wartosc));
-        return true;
+        return Odpowiedz.OK;
     }
 
     public void doladujSaldo(double wartosc) {
         saldo = saldo.add(BigDecimal.valueOf(wartosc));
+    }
+
+    public void ustawSaldo(double wartosc) {
+        saldo = BigDecimal.valueOf(wartosc);
     }
 
     public double podajSaldo() {

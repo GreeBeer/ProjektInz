@@ -3,6 +3,7 @@ package ksiagarnia.com;
 import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.db.model.GatunekKsiazki;
 import ksiagarnia.com.internal.db.model.Ksiazka;
+import ksiagarnia.com.internal.db.model.Uzytkownik;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -18,7 +19,9 @@ public class Main {
         HibernateUtils.getSessionFactory().openSession().close();
 
         Scanner scanner = new Scanner(System.in);
-        mainMenu(scanner);
+//        mainMenu(scanner);
+        ksiegarnia.login("admin", "admin");
+        adminMenu(scanner);
     }
 
     private static void promptEnterKey() {
@@ -61,10 +64,10 @@ public class Main {
     }
 
     private static void adminMenu(Scanner scanner) {
-        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_ADMIN_OK) {
-            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
-            return;
-        }
+//        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_ADMIN_OK) {
+//            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
+//            return;
+//        }
 
         while (true) {
             System.out.println("Witaj w ksiegarni Admin");
@@ -82,18 +85,18 @@ public class Main {
 
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
-                case 'A':
+                case 'A': {
                     List<GatunekKsiazki> gatunki = ksiegarnia.podajGatunki();
                     wypiszGatunki(gatunki);
                     System.out.print("Podaj gatunek id: ");
                     int idGatunek = Integer.valueOf(scanner.nextLine().trim());
-                    System.out.print("Podaj gatunek tytul: ");
+                    System.out.print("Podaj tytul: ");
                     String tytul = scanner.nextLine();
-                    System.out.print("Podaj gatunek autor: ");
+                    System.out.print("Podaj autor: ");
                     String autor = scanner.nextLine();
-                    System.out.print("Podaj gatunek rokWydania: ");
+                    System.out.print("Podaj rokWydania: ");
                     int rokWydania = Integer.valueOf(scanner.nextLine().trim());
-                    System.out.print("Podaj gatunek isbn: ");
+                    System.out.print("Podaj isbn: ");
                     String isbn = scanner.nextLine();
                     ksiegarnia.dodajKsiazke(
                             idGatunek,
@@ -103,6 +106,7 @@ public class Main {
                             isbn
                     );
                     break;
+                }
                 case 'B': {
                     Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
                     wyswietlKsiazki(ksiazki, "REJESTR");
@@ -126,10 +130,24 @@ public class Main {
                     wyswietlKsiazki(ksiazki, "REJESTR");
                     break;
                 }
-                case 'E':
+                case 'E': {
+                    System.out.print("Podaj Imie: ");
+                    String imie = scanner.nextLine();
+                    System.out.print("Podaj nazwisko: ");
+                    String nazwisko = scanner.nextLine();
+                    System.out.print("Podaj loginName: ");
+                    String loginName = scanner.nextLine();
+                    System.out.print("Podaj password: ");
+                    String password = scanner.nextLine();
+
+                    ksiegarnia.dodajUzytkownika(imie, nazwisko, loginName, password);
+                    wyswietlUzytkownikow(ksiegarnia.podajUzytkownikow(), "WSZYSCY");
                     break;
-                case 'F':
+                }
+                case 'F': {
+                    wyswietlUzytkownikow(ksiegarnia.podajUzytkownikow(), "WSZYSCY");
                     break;
+                }
                 case 'G':
                     break;
                 case 'H':
@@ -172,6 +190,16 @@ public class Main {
         System.out.println();
         for (Ksiazka ksiazka : ksiazki) {
             System.out.println(ksiazka.toString());
+        }
+        System.out.println();
+        System.out.println("###############");
+    }
+
+    private static void wyswietlUzytkownikow(Collection<Uzytkownik> uzytkownicy, String title) {
+        System.out.println("######## " + title + " ########");
+        System.out.println();
+        for (Uzytkownik uzytkownik : uzytkownicy) {
+            System.out.println(uzytkownik.toString());
         }
         System.out.println();
         System.out.println("###############");
