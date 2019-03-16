@@ -5,10 +5,12 @@ import ksiagarnia.com.internal.db.model.*;
 import ksiagarnia.com.internal.db.service.KsiazkaService;
 import ksiagarnia.com.internal.db.service.SklepService;
 import ksiagarnia.com.internal.db.service.UzytkownikService;
+import ksiagarnia.com.internal.db.service.WypozyczalniaService;
 import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
 import ksiagarnia.com.internal.user.Login;
 import ksiagarnia.com.internal.user.Uzytkownicy;
-import ksiagarnia.com.internal.zbiory2.Sklep;
+import ksiagarnia.com.internal.zbiory.Sklep;
+import ksiagarnia.com.internal.zbiory.Wypozyczalnia;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,12 +25,14 @@ public class Ksiegarnia {
     private final RejestKsiazka rejestKsiazka;
     private final Uzytkownicy uzytkownicy;
     private final Sklep sklep;
+    private final Wypozyczalnia wypozyczalnia;
 
     public Ksiegarnia() {
         login = new Login();
         rejestKsiazka = new RejestKsiazka(login, new KsiazkaService());
         uzytkownicy = new Uzytkownicy(login, new UzytkownikService());
         sklep = new Sklep(login, new SklepService(), rejestKsiazka);
+        wypozyczalnia = new Wypozyczalnia(login, new WypozyczalniaService(), rejestKsiazka);
     }
 
     public Odpowiedz login(String userName, String password) {
@@ -40,8 +44,12 @@ public class Ksiegarnia {
     }
 
     public double podajSaldo() {
-        if (login.isLoggedIn()) return login.getUzytkownik().konto.podajSaldo();
+        if (login.isLoggedIn()) return login.getUzytkownik().podajSaldo();
         return 0;
+    }
+
+    public void doladujSaldo(double topup) {
+        uzytkownicy.doladuj(topup);
     }
 
     public Collection<Ksiazka> podajDostepneKsiazki() {
@@ -69,8 +77,7 @@ public class Ksiegarnia {
     }
 
     public Odpowiedz dodajKsiazkeDoWypozyczalni(int id, int ilosc, double kosztWypozyczenia) {
-//        return .dodajKsiazke(id, ilosc, kosztWypozyczenia);
-        throw new IllegalStateException();
+        return wypozyczalnia.dodajKsiazke(id, ilosc, kosztWypozyczenia);
     }
 
     public Odpowiedz dodajUzytkownika(String imie, String nazwisko, String loginName, String loginPassword) {
@@ -93,85 +100,27 @@ public class Ksiegarnia {
         return sklep.listaMoichKupionych();
     }
 
-    public Collection<Ksiazka> podajMojeWypozyczoneKsiazki() {
-        return null;
-    }
-
-    public Collection<KsiazkaSklep> wysieltKsiazkiSklep() {
+    public Collection<KsiazkaSklep> podajKsiazkiSklep() {
         return sklep.listaKsiazek();
     }
 
-//    public void rejestr(Uzytkownik uzytkownik, double saldo) {
-//        uzytkownikMap.put(uzytkownik.id, uzytkownik);
-//        kontaUzytkownik.put(uzytkownik.id, new Konto(uzytkownik.id, saldo));
-//    }
+    public Odpowiedz wypozyczKsiazke(int ksiazkaId) {
+        return wypozyczalnia.wypozycz(ksiazkaId);
+    }
 
+    public Odpowiedz oddajKsiazke(int ksiazkaId) {
+        return wypozyczalnia.oddaj(ksiazkaId);
+    }
 
-//    public void rejestrKsiazkaDoWypozyczalni(int id, int ilosc) {
-//        wypozyczalnia.dodajKsiazke(id, ilosc);
-//    }
-//
-//    public void rejestrKsiazkaDoSklep(int id, int ilosc) {
-//        sklep.dodajKsiazke(id, ilosc);
-//    }
-//
-//    public Odpowiedz kup(int ksiazkaId, int uzytkowniId) {
-////        Uzytkownik uzytkownik = uzytkownikMap.get(uzytkowniId);
-////        if (uzytkownik == null) {
-////            return Odpowiedz.UZYTKOWNIK_NIE_ISTNIEJE;
-////        }
-////        Ksiazka ksiazka = rejestKsiazka.znajdzKsiazke(ksiazkaId);
-////        if (ksiazka == null) {
-////            return Odpowiedz.KSIAZKA_NIE_ISTNIEJE;
-////        }
-////        if (!sklep.czyJestDostepna(ksiazkaId)) {
-////            return Odpowiedz.SKLEP_KSIAZKA_NIE_JEST_DOSTEPNA;
-////        }
-////        Konto konto = kontaUzytkownik.get(uzytkowniId);
-////        if (!konto.zaplac(ksiazka.cenaNowej)) {
-////            return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
-////        }
-////        sklep.kup(ksiazkaId);
-////        uzytkownik.ksiazkiZakupione.add(ksiazka);
-//        return Odpowiedz.OK;
-//    }
-//
-//    public Odpowiedz wypozycz(int ksiazkaId, int uzytkowniId) {
-////        Uzytkownik uzytkownik = uzytkownikMap.get(uzytkowniId);
-////        if (uzytkownik == null) {
-////            return Odpowiedz.UZYTKOWNIK_NIE_ISTNIEJE;
-////        }
-////        Ksiazka ksiazka = rejestKsiazka.znajdzKsiazke(ksiazkaId);
-////        if (ksiazka == null) {
-////            return Odpowiedz.KSIAZKA_NIE_ISTNIEJE;
-////        }
-////        if (wypozyczalnia.czyJestDostepna(ksiazkaId)) {
-////            return Odpowiedz.WYPOZYCZALNIA_KSIAZKA_NIE_JEST_DOSTEPNA;
-////        }
-////        Konto konto = kontaUzytkownik.get(uzytkowniId);
-////        if (!konto.zaplac(ksiazka.kosztWyporzyczenia)) {
-////            return Odpowiedz.UZYTKOWNIK_NIE_MA_KASY;
-////        }
-////        wypozyczalnia.wypozycz(ksiazkaId, uzytkowniId);
-//        return Odpowiedz.OK;
-//    }
-//
-//    public void oddaj(int ksiazkaId, int uzytkowniId) {
-//
-//    }
-//
-//    public Collection<Ksiazka> podajKsiazkiWypozyczone(int uzytkownikId) {
-//        Set<Integer> ksiazkiIdSet = wypozyczalnia.podajListeWypozyczonych(uzytkownikId);
-//        return rejestKsiazka.znajdzKsiazki(ksiazkiIdSet);
-//    }
-//
-//    public Collection<Ksiazka> podajKsiazkiKupione(int uzytkownikId) {
-////        return uzytkownikMap.get(uzytkownikId).ksiazkiZakupione;
-//        return Collections.emptySet();
-//    }
-//
-//    public Collection<Uzytkownik> podajUzytkownikow() {
-//        return uzytkownikMap.values();
-//    }
-//
+    public Collection<WypozyczonaKsiazka> podajWypozyczoneKsiazki(int userId) {
+        return wypozyczalnia.listaWypozyczonych(userId);
+    }
+
+    public Collection<WypozyczonaKsiazka> podajMojeWypozyczoneKsiazki() {
+        return wypozyczalnia.listaMoichWypozyczonych();
+    }
+
+    public Collection<KsiazkaWypozyczalnia> podajKsiazkiWypozyczalnia() {
+        return wypozyczalnia.listaKsiazek();
+    }
 }

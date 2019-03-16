@@ -54,6 +54,13 @@ public class SklepService {
     }
 
     @SuppressWarnings("unchecked")
+    public void dodajZakukpionaKsiazke(KupionaKsiazka kupionaKsiazka) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        session.save(kupionaKsiazka);
+        session.close();
+    }
+
+    @SuppressWarnings("unchecked")
     public void uaktualnijLubDodaj(KsiazkaSklep ksiazkaSklep) {
         Session session = HibernateUtils.getSessionFactory().openSession();
 

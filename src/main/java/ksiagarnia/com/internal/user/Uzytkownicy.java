@@ -24,4 +24,10 @@ public class Uzytkownicy {
         uzytkownikService.dodajUzytkownika(uzytkownik);
         return Odpowiedz.OK;
     }
+
+    public void doladuj(double saldo) {
+        if (!login.isLoggedIn()) return;
+        login.getUzytkownik().doladujSaldo(saldo);
+        uzytkownikService.uaktualnijSaldo(login.getUzytkownik());
+    }
 }

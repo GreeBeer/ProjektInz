@@ -1,5 +1,6 @@
 package ksiagarnia.com.internal.db.model;
 
+import ksiagarnia.com.Odpowiedz;
 import ksiagarnia.com.internal.user.Konto;
 
 import javax.persistence.*;
@@ -14,9 +15,11 @@ public class Uzytkownik {
     public String loginName;
     public String loginPassword;
     public boolean admin;
-
+    private double saldo; // musi istniec tylko dla hibernate
     @Transient
-    public Konto konto = new Konto(0);
+    private boolean saldoZainiciowane;
+    @Transient
+    private Konto konto = new Konto(0);
 
     public Uzytkownik() {
     }
@@ -29,12 +32,25 @@ public class Uzytkownik {
         this.admin = admin;
     }
 
-    public void setSaldo(double saldo) {
-        konto.ustawSaldo(saldo);
+    public void doladujSaldo(double saldo) {
+        if (!saldoZainiciowane) {
+            saldoZainiciowane = true;
+            konto.ustawSaldo(saldo);
+        }
+        konto.doladujSaldo(saldo);
+        this.saldo = konto.podajSaldo();
     }
 
-    public double getSaldo() {
+    public double podajSaldo() {
+        if (!saldoZainiciowane) {
+            saldoZainiciowane = true;
+            konto.ustawSaldo(saldo);
+        }
         return konto.podajSaldo();
+    }
+
+    public Odpowiedz zaplac(double wartosc) {
+        return konto.zaplac(wartosc);
     }
 
     @Override

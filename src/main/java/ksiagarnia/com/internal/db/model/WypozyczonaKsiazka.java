@@ -10,11 +10,31 @@ public class WypozyczonaKsiazka {
     public int id;
     @ManyToOne
     @JoinColumn(name = "idUzytkownik")
-    Uzytkownik uzytkownik;
+    public Uzytkownik uzytkownik;
     @ManyToOne
     @JoinColumn(name = "idKsiazka")
-    Ksiazka ksiazka;
+    public Ksiazka ksiazka;
 
-    Timestamp dataWypozyczenia;
-    Timestamp dataOddania;
+    public Timestamp dataWypozyczenia;
+    public Timestamp dataOddania;
+
+    public WypozyczonaKsiazka() {
+
+    }
+
+    public WypozyczonaKsiazka(int userId, int ksiazkaId, Timestamp dataWypozyczenia, Timestamp dataOddania) {
+        this.uzytkownik = new Uzytkownik();
+        this.uzytkownik.id = userId;
+        this.ksiazka = new Ksiazka();
+        this.ksiazka.id = ksiazkaId;
+        this.dataWypozyczenia = dataWypozyczenia;
+        this.dataOddania = dataOddania;
+    }
+
+    @Override
+    public String toString() {
+        return "dataWypozyczenia: " + dataWypozyczenia +
+                ", dataOddania: " + dataOddania +
+                ", ksiazka: " + ksiazka.toString();
+    }
 }

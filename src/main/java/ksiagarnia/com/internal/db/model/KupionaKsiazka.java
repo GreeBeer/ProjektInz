@@ -16,12 +16,21 @@ public class KupionaKsiazka {
     Ksiazka ksiazka;
 
     Timestamp dataKupna;
-    int iloscKupionych;
 
     @Override
     public String toString() {
         return "dataKupna:" + dataKupna +
-                ", iloscKupionych: " + iloscKupionych +
                 ", ksiazka: " + ksiazka.toString();
+    }
+
+    public KupionaKsiazka(int userId, int ksiazkaId, Timestamp dataKupna) {
+        this.uzytkownik = new Uzytkownik();
+        this.uzytkownik.id = userId;
+        this.ksiazka = new Ksiazka();
+        this.ksiazka.id = ksiazkaId;
+        this.dataKupna = dataKupna;
+    }
+
+    public KupionaKsiazka() {
     }
 }

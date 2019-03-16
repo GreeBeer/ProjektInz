@@ -11,8 +11,8 @@ public class KsiazkaWypozyczalnia {
     @ManyToOne
     @JoinColumn(name = "idKsiazka")
     public Ksiazka ksiazka;
-    int ilosc;
-    double kosztWypozyczenia;
+    public int ilosc;
+    public double kosztWypozyczenia;
 
     public KsiazkaWypozyczalnia() {
     }
@@ -22,5 +22,12 @@ public class KsiazkaWypozyczalnia {
         ksiazka.id = ksiazkaId;
         this.ilosc = ilosc;
         this.kosztWypozyczenia = kosztWypozyczenia;
+    }
+
+    @Override
+    public String toString() {
+        return "ilosc: " + ilosc +
+                ", kosztWypozyczenia: " + kosztWypozyczenia +
+                ", ksiazka: " + ksiazka.toString();
     }
 }

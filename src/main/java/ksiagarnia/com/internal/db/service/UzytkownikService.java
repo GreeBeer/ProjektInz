@@ -3,6 +3,7 @@ package ksiagarnia.com.internal.db.service;
 import ksiagarnia.com.internal.db.HibernateUtils;
 import ksiagarnia.com.internal.db.model.Uzytkownik;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -39,6 +40,17 @@ public class UzytkownikService {
     public void dodajUzytkownika(Uzytkownik uzytkownik) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.save(uzytkownik);
+        session.close();
+    }
+
+    public void uaktualnijSaldo(Uzytkownik uzytkownik) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.createSQLQuery("UPDATE Uzytkownik SET saldo=:saldo WHERE id=:userId")
+                .setParameter("saldo", uzytkownik.podajSaldo())
+                .setParameter("userId", uzytkownik.id)
+                .executeUpdate();
+        transaction.commit();
         session.close();
     }
 }
