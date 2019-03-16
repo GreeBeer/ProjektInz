@@ -1,14 +1,14 @@
 package ksiagarnia.com;
 
 import ksiagarnia.com.internal.DateUtil;
-import ksiagarnia.com.internal.db.model.GatunekKsiazki;
-import ksiagarnia.com.internal.db.model.Ksiazka;
-import ksiagarnia.com.internal.db.model.Uzytkownik;
+import ksiagarnia.com.internal.db.model.*;
 import ksiagarnia.com.internal.db.service.KsiazkaService;
+import ksiagarnia.com.internal.db.service.SklepService;
 import ksiagarnia.com.internal.db.service.UzytkownikService;
 import ksiagarnia.com.internal.ksiazka.RejestKsiazka;
 import ksiagarnia.com.internal.user.Login;
 import ksiagarnia.com.internal.user.Uzytkownicy;
+import ksiagarnia.com.internal.zbiory2.Sklep;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,19 +22,26 @@ public class Ksiegarnia {
     private final Login login;
     private final RejestKsiazka rejestKsiazka;
     private final Uzytkownicy uzytkownicy;
+    private final Sklep sklep;
 
     public Ksiegarnia() {
         login = new Login();
         rejestKsiazka = new RejestKsiazka(login, new KsiazkaService());
-        uzytkownicy = new Uzytkownicy(new UzytkownikService());
+        uzytkownicy = new Uzytkownicy(login, new UzytkownikService());
+        sklep = new Sklep(login, new SklepService(), rejestKsiazka);
     }
 
     public Odpowiedz login(String userName, String password) {
         return login.zaloguj(userName, password);
     }
 
-    public int podajIdZalogowanegoUzytkownika() {
-        return login.getIdZalogowanego();
+    public void wyloguj() {
+        login.wyloguj();
+    }
+
+    public double podajSaldo() {
+        if (login.isLoggedIn()) return login.getUzytkownik().konto.podajSaldo();
+        return 0;
     }
 
     public Collection<Ksiazka> podajDostepneKsiazki() {
@@ -57,12 +64,41 @@ public class Ksiegarnia {
         return rejestKsiazka.wyrejestrujKsiazke(id);
     }
 
-    public void dodajUzytkownika(String imie, String nazwisko, String loginName, String loginPassword) {
-        uzytkownicy.dodajUzytkownika(new Uzytkownik(imie, nazwisko, loginName, loginPassword, false));
+    public Odpowiedz dodajKsiazkeDoSklepu(int id, int ilosc, double cena) {
+        return sklep.dodajKsiazke(id, ilosc, cena);
+    }
+
+    public Odpowiedz dodajKsiazkeDoWypozyczalni(int id, int ilosc, double kosztWypozyczenia) {
+//        return .dodajKsiazke(id, ilosc, kosztWypozyczenia);
+        throw new IllegalStateException();
+    }
+
+    public Odpowiedz dodajUzytkownika(String imie, String nazwisko, String loginName, String loginPassword) {
+        return uzytkownicy.dodajUzytkownika(new Uzytkownik(imie, nazwisko, loginName, loginPassword, false));
     }
 
     public Collection<Uzytkownik> podajUzytkownikow() {
         return uzytkownicy.podajUzytkownikow();
+    }
+
+    public Odpowiedz kupKsiazke(int ksiazkaId) {
+        return sklep.kupKsiazke(ksiazkaId);
+    }
+
+    public Collection<KupionaKsiazka> podajKupioneKsiazki(int userId) {
+        return sklep.listaKupionych(userId);
+    }
+
+    public Collection<KupionaKsiazka> podajMojeKupioneKsiazki() {
+        return sklep.listaMoichKupionych();
+    }
+
+    public Collection<Ksiazka> podajMojeWypozyczoneKsiazki() {
+        return null;
+    }
+
+    public Collection<KsiazkaSklep> wysieltKsiazkiSklep() {
+        return sklep.listaKsiazek();
     }
 
 //    public void rejestr(Uzytkownik uzytkownik, double saldo) {

@@ -17,4 +17,11 @@ public class KupionaKsiazka {
 
     Timestamp dataKupna;
     int iloscKupionych;
+
+    @Override
+    public String toString() {
+        return "dataKupna:" + dataKupna +
+                ", iloscKupionych: " + iloscKupionych +
+                ", ksiazka: " + ksiazka.toString();
+    }
 }

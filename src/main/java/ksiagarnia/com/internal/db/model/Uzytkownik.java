@@ -16,7 +16,7 @@ public class Uzytkownik {
     public boolean admin;
 
     @Transient
-    Konto konto = new Konto(0);
+    public Konto konto = new Konto(0);
 
     public Uzytkownik() {
     }

@@ -22,6 +22,8 @@ public class HibernateUtils {
             configuration.addAnnotatedClass(Uzytkownik.class);
             configuration.addAnnotatedClass(WypozyczonaKsiazka.class);
             configuration.addAnnotatedClass(KupionaKsiazka.class);
+            configuration.addAnnotatedClass(KsiazkaSklep.class);
+            configuration.addAnnotatedClass(KsiazkaWypozyczalnia.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties())

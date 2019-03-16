@@ -1,9 +1,7 @@
 package ksiagarnia.com;
 
 import ksiagarnia.com.internal.db.HibernateUtils;
-import ksiagarnia.com.internal.db.model.GatunekKsiazki;
-import ksiagarnia.com.internal.db.model.Ksiazka;
-import ksiagarnia.com.internal.db.model.Uzytkownik;
+import ksiagarnia.com.internal.db.model.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -20,8 +18,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 //        mainMenu(scanner);
-        ksiegarnia.login("admin", "admin");
-        adminMenu(scanner);
+        ksiegarnia.login("cc", "cc");
+        userMenu(scanner);
     }
 
     private static void promptEnterKey() {
@@ -46,7 +44,7 @@ public class Main {
             System.out.println("Witaj w ksiegarni");
             System.out.println("(A) zaloguj sie jako Admin");
             System.out.println("(B) zaloguj sie jako Uzytkownik");
-            System.out.println("(K) Koniec");
+            System.out.println("(Q) Koniec");
 
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
@@ -56,7 +54,7 @@ public class Main {
                 case 'B':
                     userMenu(scanner);
                     break;
-                case 'K':
+                case 'Q':
                     System.exit(0);
                     return;
             }
@@ -64,24 +62,29 @@ public class Main {
     }
 
     private static void adminMenu(Scanner scanner) {
-//        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_ADMIN_OK) {
-//            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
-//            return;
-//        }
+        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_ADMIN_OK) {
+            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
+            return;
+        }
 
         while (true) {
             System.out.println("Witaj w ksiegarni Admin");
             System.out.println("(A) Dodaj Ksiazke");
             System.out.println("(B) Zarejestruj Ksiazke");
             System.out.println("(C) Wyrejestruj Ksiazke");
-            System.out.println("(D) Wyswietl wszystkie ksiazki");
-            System.out.println("(E) Dodaj Uzytkownika");
-            System.out.println("(F) Wyswietl uzytkownikow");
-            System.out.println("(G) Wyswietl wszystkie wypozyczone ksiazki uzytkownika");
-            System.out.println("(H) Wyswietl wszystkie kupione ksiazki uzytkownika");
+            System.out.println("(D) Dodaj ksiazke do sklepu");
+            System.out.println("(E) Wyswietl dostepne ksazki(sklep)");
+            System.out.println("(F) Dodaj ksiazke do wypozyczalni");
+            System.out.println("(G) Wyswietl dostepne ksazki(wypozyczalnia)");
+            System.out.println("(H) Wyswietl wszystkie ksiazki (Rejestr)");
+
+            System.out.println("(I) Dodaj Uzytkownika");
+            System.out.println("(J) Wyswietl uzytkownikow");
+            System.out.println("(K) Wyswietl wszystkie wypozyczone ksiazki uzytkownika");
+            System.out.println("(L) Wyswietl wszystkie kupione ksiazki uzytkownika");
 
             System.out.println("(P) Powrot");
-            System.out.println("(K) Koniec");
+            System.out.println("(Q) Koniec");
 
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
@@ -126,11 +129,42 @@ public class Main {
                     break;
                 }
                 case 'D': {
+                    System.out.print("Podaj ksiazkaId: ");
+                    int ksiazkaId = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Podaj ilosc: ");
+                    int ilosc = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Podaj cena: ");
+                    int cena = Integer.parseInt(scanner.nextLine());
+
+                    Odpowiedz odpowiedz = ksiegarnia.dodajKsiazkeDoSklepu(ksiazkaId, ilosc, cena);
+                    System.out.println(odpowiedz);
+                    break;
+                }
+                case 'E': {
+                    wyswietlKsiazkaSklep(ksiegarnia.wysieltKsiazkiSklep(), "DOSTEPNE DO KUPNA");
+                    break;
+                }
+                case 'F': {
+                    System.out.print("Podaj ksiazkaId: ");
+                    int ksiazkaId = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Podaj ilosc: ");
+                    int ilosc = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Podaj kosztWypozyczenia: ");
+                    int koszt = Integer.parseInt(scanner.nextLine());
+
+                    Odpowiedz odpowiedz = ksiegarnia.dodajKsiazkeDoWypozyczalni(ksiazkaId, ilosc, koszt);
+                    System.out.println(odpowiedz);
+                    break;
+                }
+                case 'G': {
+                    break;
+                }
+                case 'H': {
                     Collection<Ksiazka> ksiazki = ksiegarnia.podajDostepneKsiazki();
                     wyswietlKsiazki(ksiazki, "REJESTR");
                     break;
                 }
-                case 'E': {
+                case 'I': {
                     System.out.print("Podaj Imie: ");
                     String imie = scanner.nextLine();
                     System.out.print("Podaj nazwisko: ");
@@ -140,21 +174,26 @@ public class Main {
                     System.out.print("Podaj password: ");
                     String password = scanner.nextLine();
 
-                    ksiegarnia.dodajUzytkownika(imie, nazwisko, loginName, password);
+                    Odpowiedz odpowiedz = ksiegarnia.dodajUzytkownika(imie, nazwisko, loginName, password);
+                    System.out.println(odpowiedz);
                     wyswietlUzytkownikow(ksiegarnia.podajUzytkownikow(), "WSZYSCY");
                     break;
                 }
-                case 'F': {
+                case 'J': {
                     wyswietlUzytkownikow(ksiegarnia.podajUzytkownikow(), "WSZYSCY");
                     break;
                 }
-                case 'G':
+                case 'K':
+                    System.out.print("Podaj id uzytkownika: ");
+                    int userId = Integer.parseInt(scanner.nextLine());
+                    wyswietlKupioneKsiazki(ksiegarnia.podajKupioneKsiazki(userId), "KUPIONE");
                     break;
-                case 'H':
+                case 'L':
                     break;
                 case 'P':
+                    ksiegarnia.wyloguj();
                     return;
-                case 'K':
+                case 'Q':
                     System.exit(0);
                     return;
             }
@@ -181,8 +220,24 @@ public class Main {
         return ksiegarnia.login(userName, password);
     }
 
-    private static void wyswietlKsiazki(Collection<Ksiazka> ksiazki) {
-        wyswietlKsiazki(ksiazki, "");
+    private static void wyswietlKsiazkaSklep(Collection<KsiazkaSklep> ksiazki, String title) {
+        System.out.println("######## " + title + " ########");
+        System.out.println();
+        for (KsiazkaSklep ksiazka : ksiazki) {
+            System.out.println(ksiazka.toString());
+        }
+        System.out.println();
+        System.out.println("###############");
+    }
+
+    private static void wyswietlKupioneKsiazki(Collection<KupionaKsiazka> ksiazki, String title) {
+        System.out.println("######## " + title + " ########");
+        System.out.println();
+        for (KupionaKsiazka ksiazka : ksiazki) {
+            System.out.println(ksiazka.toString());
+        }
+        System.out.println();
+        System.out.println("###############");
     }
 
     private static void wyswietlKsiazki(Collection<Ksiazka> ksiazki, String title) {
@@ -206,39 +261,56 @@ public class Main {
     }
 
     private static void userMenu(Scanner scanner) {
-        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_OK) {
-            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
-            return;
-        }
-        int idUzytkownik = ksiegarnia.podajIdZalogowanegoUzytkownika();
+//        if (loginEkran(scanner) != Odpowiedz.LOGOWANIE_OK) {
+//            System.out.println("Blad logowanie nie jestes Admin lub zle haslo i login");
+//            return;
+//        }
 
         while (true) {
             System.out.println("Witaj w ksiegarni Uzytkownik");
-            System.out.println("(A) Wyswietl moje ksiazki");
-            System.out.println("(B) Kup ksiazke");
-            System.out.println("(C) Sprawdz stan konta");
+            System.out.println("(A) Wyswietl moje kupione ksiazki");
+            System.out.println("(B) Wyswietl moje wypozyczone ksiazki");
+            System.out.println("(C) Kup ksiazke");
+            System.out.println("(D) Wypozycz ksiazke");
+            System.out.println("(E) Sprawdz stan konta");
+            System.out.println("(F) Wyswietl dostepne ksazki(sklep)");
+            System.out.println("(G) Wyswietl dostepne ksazki(wypozyczalnia)");
             System.out.println("(P) Powrot");
-            System.out.println("(K) Koniec");
+            System.out.println("(Q) Koniec");
 
             char wybor = Character.toUpperCase(scanner.nextLine().charAt(0));
             switch (wybor) {
                 case 'A':
-//                    wyswietlKsiazki(ksiegarnia.podajKsiazkiKupione(idUzytkownik), "KUPIONE");
-//                    wyswietlKsiazki(ksiegarnia.podajKsiazkiWypozyczone(idUzytkownik), "WYPOZYCZONE");
+                    wyswietlKupioneKsiazki(ksiegarnia.podajMojeKupioneKsiazki(), "KUPIONE");
                     break;
                 case 'B':
+                    wyswietlKsiazki(ksiegarnia.podajMojeWypozyczoneKsiazki(), "WYPOZYCZONE");
+                    break;
+                case 'C': {
                     System.out.println("Podaj id ksiazki");
-                    int idKsiazka = scanner.nextInt();
-//                    Odpowiedz kup = ksiegarnia.kup(idKsiazka, idUzytkownik);
-//                    System.out.println(kup);
+                    int ksiazkaId = Integer.parseInt(scanner.nextLine());
+                    Odpowiedz odpowiedz = ksiegarnia.kupKsiazke(ksiazkaId);
+                    System.out.println(odpowiedz);
                     break;
-                case 'C':
-
-
+                }
+                case 'D': {
                     break;
+                }
+                case 'E': {
+                    System.out.println("Saldo: " + ksiegarnia.podajSaldo());
+                    break;
+                }
+                case 'F': {
+                    wyswietlKsiazkaSklep(ksiegarnia.wysieltKsiazkiSklep(), "DOSTEPNE DO KUPNA");
+                    break;
+                }
+                case 'G': {
+                    break;
+                }
                 case 'P':
+                    ksiegarnia.wyloguj();
                     return;
-                case 'K':
+                case 'Q':
                     System.exit(0);
                     return;
             }
